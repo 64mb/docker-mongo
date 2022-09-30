@@ -1,0 +1,24 @@
+version: '3.4'
+services:
+  mongo_database:
+    image: mongo:4.4.0
+    container_name: mongo_database
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME:?err}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD:?err}
+      - MONGO_INITDB_DATABASE=${MONGO_DB:?err}
+    volumes:
+      - mongo_database_data:/data/db
+      - mongo_database_data:/data/configdb
+    ports:
+      - 27017:27017
+    networks:
+      - local
+
+volumes:
+  mongo_database_data:
+
+networks:
+  local:
+    driver: bridge
